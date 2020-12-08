@@ -1,31 +1,40 @@
 Make sure you've got: 
-- Docker installed 
+- Docker Compose installed (https://docs.docker.com/compose/install/)
 - repository copied to your local machine 
-- `.env` file created in root directory (namely copy of `.env.example` file placed next to it). It also allows to customize some properties of outputted SVG. 
+- `.env` file created in root directory (namely copy of `.env.example` file placed next to it). 
+  It also allows to customize some properties of outputted SVG. 
+  It is not copied automatically to avoid loosing your settings when rebuilding. 
 
-first run to build project locally: 
+Before the very first run one must build project locally: 
 
 ```
-docker-compose up --build 
+docker-compose build 
 ```
 
-next time: 
+then: 
 
 ```
 docker-compose up 
 ``` 
-is enough. 
+Next time up command is enough. 
+
+In case of problems you can start fresh with:
+```
+docker-compose down 
+```
+and repeat from beginning.  
+  
 
 To create superuser: 
 
 - enter working container
 - ```
-    docker-compose exec web sh
-    ``` 
+  docker-compose exec web sh
+  ``` 
 - execute command
 - ```
-    python manage.py createsuperuser
-    ``` 
+  python manage.py createsuperuser
+  ``` 
 - and follow instructions
 
 

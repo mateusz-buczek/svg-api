@@ -4,11 +4,11 @@ from django.db import models
 
 
 class Body(models.Model):
-    projection = models.CharField(max_length=2)
+    projection_plane = models.CharField(max_length=2)
 
     def create_svg(self):
         drawing = svgwrite.Drawing('output.svg', profile='full')
-        plane = self.projection.lower()
+        plane = self.projection_plane.lower()
         minx = 0
         miny = 0
         maxx = 0

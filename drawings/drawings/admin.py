@@ -6,7 +6,7 @@ from drawings.drawings.models import Body, Geometry
 @register(Body)
 class BodyAdmin(ModelAdmin):
     fields = (
-        'projection',
+        'projection_plane',
     )
 
 
