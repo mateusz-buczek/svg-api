@@ -46,7 +46,7 @@ or other port if you specify it for `web` container in `docker-compose.yml`
 
 You can check how it works with swagger GUI, or f.e. curl requests that it generates
 
-Models are also available in regular django-admin
+Models are also available in regular django-admin. Uploaded data is stored in DB and can be re-rendered to svg if needed
 ```
 localhost:8000/admin/
 ```

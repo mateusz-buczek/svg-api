@@ -49,7 +49,7 @@ class Body(models.Model):
             width=maxx-minx+settings.SVG_VIEWBOX_PADDING*2,
             height=maxy-miny+settings.SVG_VIEWBOX_PADDING*2,
         )
-        return drawing.save(pretty=True, indent=4)
+        return drawing.tostring()
 
 
 class Geometry(models.Model):
