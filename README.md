@@ -38,6 +38,12 @@ To create superuser:
 - and follow instructions
 
 
+To run tests execute command
+- ```
+  python manage.py test
+  ``` 
+
+
 Browsable API is available at 
 ```
 localhost:8000/api-info/
@@ -51,11 +57,17 @@ Models are also available in regular django-admin. Uploaded data is stored in DB
 localhost:8000/admin/
 ```
 
-If you decide to make any changes, make sure to use: 
-```
-isort .
-```
-in the same place you execute `manage.py` commands. It'll clean up imports before you commit your changes.
+If you decide to make any changes, make sure to clean up imports with isort(it's installed when web container builds). 
+To do that:
+- enter working container
+- ```
+  docker-compose exec web sh
+  ``` 
+  use: 
+- ```
+  isort .
+  ```
+and you're ready to commit. 
 
 
 Request data scheme:
