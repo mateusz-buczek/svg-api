@@ -52,11 +52,8 @@ class BodySerializer(serializers.ModelSerializer):
         drawing = svgwrite.Drawing('output.svg', profile='full')
         plane = validated_data['projection_plane'].lower()
         geometry = validated_data.pop('geometry')
-        minx = 0
-        miny = 0
-        maxx = 0
-        maxy = 0
-        iteration = 0
+        minx, miny, maxx, maxy = None, None, None, None
+
         for geo in geometry:
             x1 = geo[f'{plane[0]}1']
             x2 = geo[f'{plane[0]}2']
@@ -76,15 +73,14 @@ class BodySerializer(serializers.ModelSerializer):
                     'stroke': settings.SVG_STROKE,
                 }
             ))
-            if x1 < minx or iteration == 0:
+            if x1 < minx or minx is None:
                 minx = x1
-            if x2 > maxx or iteration == 0:
+            if x2 > maxx or maxx is None:
                 maxx = x2
-            if y1 < miny or iteration == 0:
+            if y1 < miny or miny is None:
                 miny = y1
-            if y2 > maxy or iteration == 0:
+            if y2 > maxy or maxy is None:
                 maxy = y2
-            iteration += 1
 
         drawing.viewbox(
             minx=minx-settings.SVG_VIEWBOX_PADDING,
@@ -92,5 +88,4 @@ class BodySerializer(serializers.ModelSerializer):
             width=maxx-minx+settings.SVG_VIEWBOX_PADDING*2,
             height=maxy-miny+settings.SVG_VIEWBOX_PADDING*2,
         )
-        xml_as_string = drawing.tostring()
-        return xml_as_string
+        return drawing.tostring()
