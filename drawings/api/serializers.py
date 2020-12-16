@@ -9,9 +9,13 @@ from drawings.drawings.models import Body, Geometry
 class GeometrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Geometry
-        exclude = [
-            'body',
-            'id',
+        fields = [
+            'x1',
+            'x2',
+            'y1',
+            'y2',
+            'z1',
+            'z2',
         ]
 
 
@@ -20,7 +24,9 @@ class BodySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Body
-        fields = '__all__'
+        fields = [
+            'projection_plane',
+        ]
 
     def validate(self, data):
         if len(data.get('projection_plane')) != 2:
