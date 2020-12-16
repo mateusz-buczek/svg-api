@@ -7,7 +7,7 @@ psycopg2==2.8.5
 
 # Additional packages
 djangorestframework==3.11.0
-drf-yasg
+drf-yasg==1.20.0
 
 isort==5.4.2
 

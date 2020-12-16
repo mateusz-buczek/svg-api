@@ -2,5 +2,4 @@
 -r base.txt
 
 # Django environ
-django-debug-toolbar==2.2
-mixer
+django-debug-toolbar==3.2
