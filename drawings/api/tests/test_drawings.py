@@ -12,17 +12,17 @@ class BodyAndGeometryCreateTests(APITestCase):
         self.data = {}
 
     def test_create_with_no_data(self):
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
 
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
 
     def test_create_with_correct_data(self):
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
         self.data = {
             "geometry": [
                 {"x1": -207, "x2": -332, "y1": 9, "y2": 191, "z1": 0, "z2": 18},
@@ -49,8 +49,8 @@ class BodyAndGeometryCreateTests(APITestCase):
         self.assertEqual(Geometry.objects.all().count(), 13)
 
     def test_create_with_incomplete_geometry_data(self):
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
         self.data = {
             "geometry": [
                 {"x2": -332, "y1": 9, "y2": 191, "z1": 0, "z2": 18},
@@ -61,12 +61,12 @@ class BodyAndGeometryCreateTests(APITestCase):
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
 
     def test_create_without_projection_plane_data(self):
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
         self.data = {
             "geometry": [
                 {"x1": 332, "x2": 350, "y1": 209, "y2": 391, "z1": 0, "z2": 320},
@@ -77,12 +77,12 @@ class BodyAndGeometryCreateTests(APITestCase):
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
 
     def test_create_with_disallowed_projection_plane_data(self):
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())
         projection_plane = 'ZX'
         self.assertTrue(projection_plane not in settings.ALLOWED_PLANES)
         self.data = {
@@ -95,5 +95,5 @@ class BodyAndGeometryCreateTests(APITestCase):
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(Body.objects.all().count(), 0)
-        self.assertEqual(Geometry.objects.all().count(), 0)
+        self.assertFalse(Body.objects.all().exists())
+        self.assertFalse(Geometry.objects.all().exists())

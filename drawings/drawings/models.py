@@ -17,26 +17,18 @@ class Body(models.Model):
             y1 = getattr(geo, f'{plane[1]}1')
             y2 = getattr(geo, f'{plane[1]}2')
             drawing.add(drawing.rect(
-                insert=(
-                    x1,
-                    y1,
-                ),
-                size=(
-                    x2 - x1,
-                    y2 - y1,
-                ),
-                **{
-                    'fill': settings.SVG_FILL,
-                    'stroke': settings.SVG_STROKE,
-                }
+                insert=(x1, y1),
+                size=(x2 - x1, y2 - y1),
+                fill=settings.SVG_FILL,
+                stroke=settings.SVG_STROKE,
             ))
-            if x1 < minx or minx is None:
+            if minx is None or x1 < minx:
                 minx = x1
-            if x2 > maxx or maxx is None:
+            if maxx is None or x2 > maxx:
                 maxx = x2
-            if y1 < miny or miny is None:
+            if miny is None or y1 < miny:
                 miny = y1
-            if y2 > maxy or maxy is None:
+            if maxy is None or y2 > maxy:
                 maxy = y2
 
         drawing.viewbox(

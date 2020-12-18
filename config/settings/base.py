@@ -18,22 +18,19 @@ env = environ.Env()
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = (environ.Path(__file__) - 3)
-APPS_DIR = BASE_DIR.path("drawings")
+APPS_DIR = BASE_DIR.path('drawings')
 env_file = str(BASE_DIR.path('.env'))
 env.read_env(env_file)
-print('The .env file has been loaded. See base.py for more information')
+print("The .env file has been loaded. See base.py for more information")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
-    "DJANGO_SECRET_KEY",
-    default=''
-)
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DJANGO_DEBUG", False)
+DEBUG = env.bool('DJANGO_DEBUG', False)
 
 ALLOWED_HOSTS = [env('DJANGO_ALLOWED_HOSTS', default='*')]
 
@@ -93,8 +90,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DATABASES = {'default': env.db('DATABASE_URL')}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -135,8 +132,7 @@ STATIC_ROOT = str(BASE_DIR.path('staticfiles'))
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # SVG SETTINGS
-SVG_STROKE = env("SVG_STROKE", default='black')
-SVG_FILL = env("SVG_FILL", default='gray')
-SVG_VIEWBOX_PADDING = env("SVG_VIEWBOX_PADDING", default=100)
-
+SVG_STROKE = env('SVG_STROKE', default='black')
+SVG_FILL = env('SVG_FILL', default='gray')
+SVG_VIEWBOX_PADDING = env('SVG_VIEWBOX_PADDING', default=100)
 ALLOWED_PLANES = ['XY', 'YZ', 'XZ']
