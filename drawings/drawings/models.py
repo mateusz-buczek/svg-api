@@ -9,39 +9,27 @@ class Body(models.Model):
     def create_svg(self):
         drawing = svgwrite.Drawing('output.svg', profile='full')
         plane = self.projection_plane.lower()
-        minx = 0
-        miny = 0
-        maxx = 0
-        maxy = 0
-        iteration = 0
+        minx, miny, maxx, maxy = None, None, None, None
+
         for geo in self.geometry.all():
             x1 = getattr(geo, f'{plane[0]}1')
             x2 = getattr(geo, f'{plane[0]}2')
             y1 = getattr(geo, f'{plane[1]}1')
             y2 = getattr(geo, f'{plane[1]}2')
             drawing.add(drawing.rect(
-                insert=(
-                    x1,
-                    y1,
-                ),
-                size=(
-                    x2 - x1,
-                    y2 - y1,
-                ),
-                **{
-                    'fill': settings.SVG_FILL,
-                    'stroke': settings.SVG_STROKE,
-                }
+                insert=(x1, y1),
+                size=(x2 - x1, y2 - y1),
+                fill=settings.SVG_FILL,
+                stroke=settings.SVG_STROKE,
             ))
-            if x1 < minx or iteration == 0:
+            if minx is None or x1 < minx:
                 minx = x1
-            if x2 > maxx or iteration == 0:
+            if maxx is None or x2 > maxx:
                 maxx = x2
-            if y1 < miny or iteration == 0:
+            if miny is None or y1 < miny:
                 miny = y1
-            if y2 > maxy or iteration == 0:
+            if maxy is None or y2 > maxy:
                 maxy = y2
-            iteration += 1
 
         drawing.viewbox(
             minx=minx-settings.SVG_VIEWBOX_PADDING,

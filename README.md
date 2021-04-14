@@ -3,7 +3,7 @@ Make sure you've got:
 - repository copied to your local machine 
 - `.env` file created in root directory (namely copy of `.env.example` file placed next to it). 
   It also allows to customize some properties of outputted SVG. 
-  It is not copied automatically to avoid loosing your settings when rebuilding. 
+  It is not copied automatically to avoid losing your settings when rebuilding. 
 
 Before the very first run one must build project locally: 
 

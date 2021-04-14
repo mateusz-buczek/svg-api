@@ -9,9 +9,13 @@ from drawings.drawings.models import Body, Geometry
 class GeometrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Geometry
-        exclude = [
-            'body',
-            'id',
+        fields = [
+            'x1',
+            'x2',
+            'y1',
+            'y2',
+            'z1',
+            'z2',
         ]
 
 
@@ -20,7 +24,10 @@ class BodySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Body
-        fields = '__all__'
+        fields = [
+            'geometry',
+            'projection_plane',
+        ]
 
     def validate(self, data):
         if len(data.get('projection_plane')) != 2:
@@ -46,39 +53,27 @@ class BodySerializer(serializers.ModelSerializer):
         drawing = svgwrite.Drawing('output.svg', profile='full')
         plane = validated_data['projection_plane'].lower()
         geometry = validated_data.pop('geometry')
-        minx = 0
-        miny = 0
-        maxx = 0
-        maxy = 0
-        iteration = 0
+        minx, miny, maxx, maxy = None, None, None, None
+
         for geo in geometry:
             x1 = geo[f'{plane[0]}1']
             x2 = geo[f'{plane[0]}2']
             y1 = geo[f'{plane[1]}1']
             y2 = geo[f'{plane[1]}2']
             drawing.add(drawing.rect(
-                insert=(
-                    x1,
-                    y1,
-                ),
-                size=(
-                    x2 - x1,
-                    y2 - y1,
-                ),
-                **{
-                    'fill': settings.SVG_FILL,
-                    'stroke': settings.SVG_STROKE,
-                }
+                insert=(x1, y1),
+                size=(x2 - x1, y2 - y1),
+                fill=settings.SVG_FILL,
+                stroke=settings.SVG_STROKE,
             ))
-            if x1 < minx or iteration == 0:
+            if minx is None or x1 < minx:
                 minx = x1
-            if x2 > maxx or iteration == 0:
+            if maxx is None or x2 > maxx:
                 maxx = x2
-            if y1 < miny or iteration == 0:
+            if miny is None or y1 < miny:
                 miny = y1
-            if y2 > maxy or iteration == 0:
+            if maxy is None or y2 > maxy:
                 maxy = y2
-            iteration += 1
 
         drawing.viewbox(
             minx=minx-settings.SVG_VIEWBOX_PADDING,
@@ -86,5 +81,4 @@ class BodySerializer(serializers.ModelSerializer):
             width=maxx-minx+settings.SVG_VIEWBOX_PADDING*2,
             height=maxy-miny+settings.SVG_VIEWBOX_PADDING*2,
         )
-        xml_as_string = drawing.tostring()
-        return xml_as_string
+        return drawing.tostring()
